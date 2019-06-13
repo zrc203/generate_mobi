@@ -16,7 +16,7 @@ def ncx(root_path, ncx_title, ncx_list):
     ncx_xml = tostring(ncx, pretty_print=True)
     ncx_xml = '%s\n%s\n%s' % ('<?xml version="1.0" encoding="UTF-8"?>',
                                   '''<!DOCTYPE ncx PUBLIC "-//NISO//DTD ncx 2005-1//EN" 
-                                  "http://www.daisy.org/z3986/2005/ncx-2005-1.dtd">''', ncx_xml)
-    with open('%s\\top.ncx' % (root_path),'w') as f:
+                                  "http://www.daisy.org/z3986/2005/ncx-2005-1.dtd">''', ncx_xml.decode('utf-8'))
+    with open('%s\\toc.ncx' % (root_path),'w') as f:
         f.write(ncx_xml)
 

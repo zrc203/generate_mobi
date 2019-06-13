@@ -30,10 +30,9 @@ def opf(root_path, dc_info, item_info):
     guide = SubElement(package, 'guide')
     SubElement(guide, 'reference', attrib={'type': 'toc', 'title': 'Table of Contents', 'href': 'toc.html'})
     SubElement(guide, 'reference', attrib={'type': 'text', 'title': 'Book', 'href': item_info[0]['href']})
-    print(tostring(package, pretty_print=True))
 
     opf_xml = tostring(package, pretty_print=True)
-    opf_xml = '%s\n%s' % ('<?xml version="1.0" encoding="UTF-8"?>', opf_xml)
+    opf_xml = '%s\n%s' % ('<?xml version="1.0" encoding="UTF-8"?>', opf_xml.decode('utf-8'))
     with open('%s\\%s.opf' % (root_path, dc_info['Title']), 'w') as f:
         f.write(opf_xml)
 
