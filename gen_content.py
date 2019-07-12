@@ -3,6 +3,7 @@ from lxml.etree import Element, SubElement, tostring
 
 def content_html(root_path, url, chap_list):
     html = Element('html', attrib={'xmlns': 'http://www.w3.org/1999/xhtml'})
+    SubElement(html, 'meta', attrib={'http-equiv': 'Content-Type', 'content': 'text/html; charset=utf-8'})
     head = SubElement(html, 'head')
     SubElement(head, 'title').text = 'TOC'
     SubElement(head, 'link', attrib={'type': 'text/css', 'href': 'style.css', 'rel': 'Stylesheet'})
@@ -14,7 +15,6 @@ def content_html(root_path, url, chap_list):
             SubElement(body, 'p').text = content
         SubElement(body, 'div', attrib={'class': 'pagebreak'})
         i += 1
-    top_html = tostring(html, pretty_print=True)
-    top_html = '%s\n%s' % ('<!DOCTYPE html>', top_html.decode('utf-8'))
-    with open('%s\\%s.html' % (root_path, url), 'w') as f:
+    top_html = tostring(html, pretty_print=True,method='html')
+    with open('%s\\%s.html' % (root_path, url), 'wb') as f:
         f.write(top_html)

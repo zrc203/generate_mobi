@@ -9,14 +9,20 @@ def ncx(root_path, ncx_title, ncx_list):
     navMap = SubElement(ncx, 'navMap')
     i = 1
     for nav in ncx_list:
-        navPoint = SubElement(navMap, 'navPoint', attrib={'id': 'navpoint-%s' % (i), 'playOrder': '%s' % i})
-        SubElement(SubElement(navPoint, 'navLabel'), 'text').text = nav['text']
-        SubElement(navPoint, 'content', attrib={'src': nav['src']})
+        navPoint = gen_navPoint(navMap,nav,i)
         i += 1
+        if 'child' in nav:
+            for child_nav in nav['child']:
+                gen_navPoint(navPoint, child_nav, i)
+                i += 1
+
     ncx_xml = tostring(ncx, pretty_print=True)
-    ncx_xml = '%s\n%s\n%s' % ('<?xml version="1.0" encoding="UTF-8"?>',
-                                  '''<!DOCTYPE ncx PUBLIC "-//NISO//DTD ncx 2005-1//EN" 
-                                  "http://www.daisy.org/z3986/2005/ncx-2005-1.dtd">''', ncx_xml.decode('utf-8'))
-    with open('%s\\toc.ncx' % (root_path),'w') as f:
+    with open('%s\\toc.ncx' % (root_path), 'wb') as f:
         f.write(ncx_xml)
 
+
+def gen_navPoint(parent_ele, nav, i):
+    navPoint = SubElement(parent_ele, 'navPoint', attrib={'id': 'navpoint-%s' % (i), 'playOrder': '%s' % i})
+    SubElement(SubElement(navPoint, 'navLabel'), 'text').text = nav['text']
+    SubElement(navPoint, 'content', attrib={'src': nav['src']})
+    return navPoint
