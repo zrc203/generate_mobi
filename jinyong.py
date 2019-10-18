@@ -1,3 +1,4 @@
+# coding=utf-8
 import requests
 import traceback
 from bs4 import BeautifulSoup
@@ -30,7 +31,7 @@ def get_content(url):
 
 
 rootUrl = 'http://jinyongxiaoshuo.com/'
-relase_list = ['http://jinyongxiaoshuo.com/xiuding','http://jinyongxiaoshuo.com/xinxiu']
+relase_list = ['http://jinyongxiaoshuo.com/jiuban']
 for relase_url in relase_list:
     top_info = []
     novel_soup = get_content(relase_url)

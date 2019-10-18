@@ -15,6 +15,6 @@ def content_html(root_path, url, chap_list):
             SubElement(body, 'p').text = content
         SubElement(body, 'div', attrib={'class': 'pagebreak'})
         i += 1
-    top_html = tostring(html, pretty_print=True,method='html')
+    top_html = tostring(html, encoding="utf-8", pretty_print=True, method="html")
     with open('%s\\%s.html' % (root_path, url), 'wb') as f:
         f.write(top_html)

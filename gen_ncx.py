@@ -9,14 +9,14 @@ def ncx(root_path, ncx_title, ncx_list):
     navMap = SubElement(ncx, 'navMap')
     i = 1
     for nav in ncx_list:
-        navPoint = gen_navPoint(navMap,nav,i)
+        navPoint = gen_navPoint(navMap, nav, i)
         i += 1
         if 'child' in nav:
             for child_nav in nav['child']:
                 gen_navPoint(navPoint, child_nav, i)
                 i += 1
 
-    ncx_xml = tostring(ncx, pretty_print=True)
+    ncx_xml = tostring(ncx, encoding="utf-8", pretty_print=True, method="html")
     with open('%s\\toc.ncx' % (root_path), 'wb') as f:
         f.write(ncx_xml)
 

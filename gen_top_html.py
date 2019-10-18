@@ -23,6 +23,6 @@ def top_html(root_path, book_name, top_info, isMulti):
         for top in top_info:
             SubElement(SubElement(ul, 'li'), 'a', attrib={'href': top['chap_url']}).text = top['chap_title']
 
-    top_html = tostring(html, pretty_print=True,method='html')
+    top_html = tostring(html, encoding="utf-8", pretty_print=True, method="html")
     with open('%s\\toc.html' % (root_path), 'wb') as f:
         f.write(top_html)
