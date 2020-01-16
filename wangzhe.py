@@ -29,7 +29,7 @@ def get_content(url):
             continue
 
 
-noveurl = 'https://www.d586.com/43038/'
+noveurl = 'https://www.d586.com/4607/'
 rootUrl = 'https://www.d586.com'
 top_info = []
 ncx_list = []
