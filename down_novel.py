@@ -64,20 +64,22 @@ def get_new_soup(top_soup_list):
         i += 1
     new_top_soup_list = list()
     total = len(top_soup_list)
-    step = int(ceil(float(total) / 5.0))
+    step = int(ceil(float(total) / 10.0))
     for i in range(0, total, step):
         char_list = top_soup_list[i:i + step]
         down = Down(char_list, new_top_soup_list)
         down.start()
+    lth = 0
     while True:
-        time.sleep(1)
-        if len(new_top_soup_list) == total:
+        time.sleep(20)
+        if len(new_top_soup_list) - lth == 0:
             new_top_soup_list.sort(key=lambda tag:tag['idx'])
             return new_top_soup_list
+        lth = len(new_top_soup_list)
 
 
 if __name__ == '__main__':
-    noveurl = 'https://www.d586.com/13862/'
+    noveurl = 'https://www.d586.com/4414/'
     rootUrl = 'https://www.d586.com'
     top_soup = get_content(noveurl)
     novel_name = top_soup.select('[property="og:novel:book_name"]')[0]['content']
