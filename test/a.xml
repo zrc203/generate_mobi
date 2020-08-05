@@ -1,0 +1,62 @@
+<ncx version="2005-1" xmlns="http://www.daisy.org/z3986/2005/ncx/">
+    <head></head>
+    <docTitle>
+        <text>我是一具尸体</text>
+    </docTitle>
+    <navMap>
+        <navPoint id="navpoint-1" playOrder="1">
+            <navLabel>
+                <text>我是一具尸体</text>
+            </navLabel>
+            <content src="qugekongjie.html"></content>
+            <navPoint id="navpoint-2" playOrder="2">
+                <navLabel>
+                    <text>第1章：我的葬礼</text>
+                </navLabel>
+                <content src="qugekongjie.html#1"></content>
+            </navPoint>
+            <navPoint id="navpoint-3" playOrder="3">
+                <navLabel>
+                    <text>第2章：魂兮归来</text>
+                </navLabel>
+                <content src="qugekongjie.html#2"></content>
+            </navPoint>
+            <navPoint id="navpoint-4" playOrder="4">
+                <navLabel>
+                    <text>第3章：墓地鬼怪</text>
+                </navLabel>
+                <content src="qugekongjie.html#3"></content>
+            </navPoint>
+            <navPoint id="navpoint-5" playOrder="5">
+                <navLabel>
+                    <text>第4章：第一次吸血</text>
+                </navLabel>
+                <content src="qugekongjie.html#4"></content>
+            </navPoint>
+            <navPoint id="navpoint-6" playOrder="6">
+                <navLabel>
+                    <text>第5章：路遇鬼魂</text>
+                </navLabel>
+                <content src="qugekongjie.html#5"></content>
+            </navPoint>
+            <navPoint id="navpoint-7" playOrder="7">
+                <navLabel>
+                    <text>第6章：救人，吸人血</text>
+                </navLabel>
+                <content src="qugekongjie.html#6"></content>
+            </navPoint>
+            <navPoint id="navpoint-8" playOrder="8">
+                <navLabel>
+                    <text>第7章：傲娇小女王，安雅琳</text>
+                </navLabel>
+                <content src="qugekongjie.html#7"></content>
+            </navPoint>
+            <navPoint id="navpoint-9" playOrder="9">
+                <navLabel>
+                    <text>第8章：逃脱鬼车</text>
+                </navLabel>
+                <content src="qugekongjie.html#8"></content>
+            </navPoint>
+        </navPoint>
+    </navMap>
+</ncx>

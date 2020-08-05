@@ -7,10 +7,10 @@ import random
 import time
 import os
 from math import ceil
-from gen_ncx import ncx
-from gen_opf import opf
-from gen_top_html import top_html
-from gen_content import content_html
+from gen.gen_ncx import ncx
+from gen.gen_opf import opf
+from gen.gen_top_html import top_html
+from gen.gen_content import content_html
 import re
 
 
