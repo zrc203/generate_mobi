@@ -1,17 +1,23 @@
 # coding=utf-8
 import requests
 import traceback
-from bs4 import BeautifulSoup
 import threading
 import random
 import time
 import os
-from math import ceil
+from math import floor
+
 from gen.gen_ncx import ncx
 from gen.gen_opf import opf
 from gen.gen_top_html import top_html
 from gen.gen_content import content_html
 import re
+import json
+
+# 搜索 https://souxs.leeyegy.com/search.aspx?key=头狼&siteid=app2
+# 目录 https://infosxs.pysmei.com/BookFiles/Html/429/428286/index.html
+# 正文 https://infosxs.pysmei.com/BookFiles/Html/429/428286/2405485.html
+
 
 
 def get_content(url):
@@ -20,13 +26,15 @@ def get_content(url):
             headers = {
                 "User-Agent": "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.115 Safari/537.36"}
             r = requests.request('get', url, headers=headers)
-            # time.sleep(random.randint(3, 4))
-            r.encoding = 'utf-8'
+            r.encoding = 'utf-8-sig'
             if r.status_code != 200:
                 print('***' + url)
                 continue
-            return BeautifulSoup(r.text, 'lxml')
-        except BaseException:
+            text = r.text
+            text = text.replace(',]', ']')
+            return json.loads(text)
+        except BaseException as e:
+            time.sleep(random.randint(3, 4))
             traceback.print_exc()
             continue
 
@@ -39,28 +47,27 @@ class Down(threading.Thread):
 
     def run(self):
         while True:
+            if len(top_soup_list) == 0:
+                break
             chap_url_soup = self.top_soup_list.pop(0)
-            if chap_url_soup['href'].startswith('http'):
-                continue
-            chap_name = chap_url_soup.text.strip()
-            chap_name = re.sub('\s*【.*', '', chap_name)
-            chap_name = re.sub('\s+', ' ', chap_name)
-            content_soup = get_content(rootUrl + chap_url_soup['href'])
+            chap_name = chap_url_soup['name']
+            print(chap_name)
+            content_soup = get_content(noveurl.replace('index', str(chap_url_soup['id'])))
             chap = dict()
             chap['chap_name'] = chap_name
-            chap['idx'] = chap_url_soup.idx
-            print(chap_name)
-            content_list = content_soup.select('[id="content"] p')
-            chap_content = list(map(lambda x:x.text, content_list))
+            chap['idx'] = chap_url_soup['idx']
+            content_list = content_soup['data']['content']
+            chap_content = re.split('\s{2,}', content_list)
+            chap_content = list(filter(lambda x: x!='', chap_content))
             chap['content'] = chap_content
-            chap['url'] = chap_url_soup['href']
+            chap['url'] = f'/{book_id}/{chap_url_soup["id"]}.html'
             self.chap_list.append(chap)
 
 
 def get_new_soup(top_soup_list):
     i = 0
     for t in top_soup_list:
-        t.idx = i
+        t['idx'] = i
         i += 1
     char_list = list()
     for i in range(10):
@@ -75,19 +82,19 @@ def get_new_soup(top_soup_list):
 
 
 if __name__ == '__main__':
-    noveurl = 'https://www.dstiejuan.com/book/30113/'
-    rootUrl = 'https://www.dstiejuan.com'
+    book_id = 428286
+    noveurl = f'https://infosxs.pysmei.com/BookFiles/Html/{floor(book_id / 1000) + 1}/{book_id}/index.html'
     top_soup = get_content(noveurl)
-    novel_name = top_soup.select_one('h1').text
+    novel_name = top_soup['data']['name']
     en_name = 'qugekongjie'
     root_path = 'D:\\jin\\' + novel_name
     if not os.path.exists(root_path):
         os.mkdir(root_path)
-    top_soup_list = top_soup.select('dd a')[12:]
+    top_soup_list = top_soup['data']['list'][0]['list']
     dc_info = dict()
     dc_info['Title'] = novel_name
     dc_info['Language'] = 'zh-CN'
-    dc_info['Creator'] = top_soup.select_one('h2 a').text
+    dc_info['Creator'] = 'zrc'
     dc_info['Copyrights'] = 'zrc'
     dc_info['Publisher'] = 'zrc'
     chap_list = get_new_soup(top_soup_list)
@@ -112,7 +119,3 @@ if __name__ == '__main__':
     ncx(root_path, novel_name, ncx_list)
     opf(root_path, dc_info, item_info)
     top_html(root_path, novel_name, top_info, True)
-
-
-
-
